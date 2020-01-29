@@ -36,6 +36,7 @@ function App() {
               <input name="longitude" id="longitude" required/>
             </div>  
           </div>
+          <button type="submit">Salvar</button>
         </form>
       </aside>
       <main>
