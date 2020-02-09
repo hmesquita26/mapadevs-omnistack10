@@ -3,8 +3,10 @@ import { StyleSheet, Image, View, Text, TextInput, TouchableOpacity } from 'reac
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { requestPermissionsAsync , getCurrentPositionAsync} from 'expo-location';
 import { MaterialIcons } from '@expo/vector-icons';
+import api from '../services/api';
 
 function Main({ navigation }){
+  const [devs, setDevs] = useState([]);
   const [currentRegion, setCurrentRegion] = useState(null);
 
   useEffect(() => {
@@ -30,13 +32,32 @@ function Main({ navigation }){
     loadInitialPosition();
   }, []);
 
+  async function loadDevs() {
+    const { latitude, longitude } = currentRegion;
+
+    const response = await applicationCache.get('/search', {
+      params: {
+        latitude,
+        longitude,
+        techs: ''
+      }
+    });
+
+    setDevs(response.data);
+  }
+
+  function handleRegionChanged(region) {
+    setCurrentRegion(region);
+
+  }
+
   if (!currentRegion) {
     return null;
   }
   
   return (
     <>
-      <MapView initialRegion={currentRegion} style={styles.map}>
+      <MapView  onRegionChangeComplete={handleRegionChanged} initialRegion={currentRegion} style={styles.map}>
         <Marker coordinate={{latitude: -5.8583156, longitude: -35.3418353}}>
           <Image style={styles.avatar} source={{ uri: 'https://avatars1.githubusercontent.com/u/20123157?s=460&v=4' }} />
           <Callout onPress={()=> {
