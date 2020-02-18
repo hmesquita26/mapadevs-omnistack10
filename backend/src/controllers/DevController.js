@@ -29,6 +29,9 @@ module.exports = {
         techs: techsArray,
         location,
       })
+
+      // Filtrar as conexões que estão no máximo a 10km de distância
+      // e que o novo dev tenha pelo menos uma das techs filtardas
     }
     return res.json(dev);
   }
