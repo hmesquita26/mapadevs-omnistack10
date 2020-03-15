@@ -98,3 +98,5 @@ RNTester/Pods/*
 # Visual studio
 .vscode
 .vs
+
+*.lock
